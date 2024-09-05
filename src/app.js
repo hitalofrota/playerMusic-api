@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./routes/routes");
 const cloudinary = require("cloudinary").v2;
+const conectionDB = require("./users/configs/dbConnect.js");
 
 const app = express();
 
@@ -15,10 +16,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-app.get('/', (req, res) => {
-    res.status(200).send("API em execução");
-});
+conectionDB();
 
-app.use('/api', router);
+app.use('/', router);
 
 module.exports = app;
