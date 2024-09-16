@@ -2,6 +2,18 @@ const userRepository = require('../repository/userRepository.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+exports.findAll = async () => {
+    return await userRepository.findAllUsers();
+};
+
+exports.findUserById = async (id) => {
+    const user = await userRepository.findUserById(id);
+    if (!user) {
+        throw new Error('Usuário não encontrado');
+    }
+    return user;
+};
+
 exports.registerUser = async (name, email, password) => {
     const existingUser = await userRepository.findUserByEmail(email);
     if (existingUser) {
@@ -17,18 +29,6 @@ exports.registerUser = async (name, email, password) => {
     };
 
     return await userRepository.createUser(newUser);
-};
-
-exports.getUsers = async () => {
-    return await userRepository.findAllUsers();
-};
-
-exports.getUserById = async (id) => {
-    const user = await userRepository.findUserById(id);
-    if (!user) {
-        throw new Error('Usuário não encontrado');
-    }
-    return user;
 };
 
 exports.updateUser = async (id, userData) => {

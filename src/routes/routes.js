@@ -1,6 +1,6 @@
 const express = require('express');
-const musicRoutes = require('../routes/musicRoutes'); // Rotas de música
-const userRoutes = require('../users/routes/userRoutes'); // Rotas de usuário
+const musicRoutes = require('../routes/musicRoutes'); 
+const userRoutes = require('../users/routes/userRoutes.js');
 
 const router = express.Router();
 
