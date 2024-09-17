@@ -3,15 +3,22 @@ const cloudinary = require('cloudinary').v2;
 class MusicsController {
     static async listSongs(req, res) {
         try {
+
+            const { next_cursor } = req.query;
+
             const resources = await cloudinary.api.resources({
                 type: 'upload',
                 resource_type: 'video',   
+                next_cursor: next_cursor || undefined 
             });
             const songs = resources.resources.map(resource => ({
                 url: resource.secure_url,
                 name: resource.public_id.split('/').pop()
             }));
-            res.json(songs);
+            res.json({
+                songs,
+                next_cursor: resources.next_cursor || null 
+            });
         } catch (err) {
             console.error('Erro ao listar músicas do Cloudinary:', err);
             res.status(500).send('Erro ao listar músicas');
